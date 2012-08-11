@@ -1,0 +1,22 @@
+<% unless @redirect.nil? %>
+<script type="text/javascript">
+  top.location.href = "<%= raw @redirect %>"
+</script>
+<% end %>
+<form action="comment" method="post">
+<textarea>
+</textarea>
+<input type="submit" value="comment"/>
+<% @feed["data"].select {|item| item["type"] == "status" && !item["to"].nil?}.each do |item| %>
+  <div>
+    <div><b><%= item["from"]["name"] %></b></div>
+    <input type="checkbox" checked="true" name="post" id="post<%= item["id"] %>" value="<%= item["id"] %>"/>
+    <label for="post<% item["id"]%>"><%= item["message"] %></label>
+  </div>
+<% end %>
+</form>
+<br/>
+<br/>
+<br/>
+<br/>
+<%= @feed %>
