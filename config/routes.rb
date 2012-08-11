@@ -1,6 +1,7 @@
 Birthday::Application.routes.draw do
   get "auth/first"
   post "auth/first", :to => "auth#post" 
+  post "auth/comment"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

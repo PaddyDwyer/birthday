@@ -3,14 +3,16 @@
   top.location.href = "<%= raw @redirect %>"
 </script>
 <% end %>
-<form action="comment" method="post">
-<textarea>
+<% if @feed %>
+<form action="/auth/comment" method="post">
+<textarea name="comment_text">
 </textarea>
+<input type="hidden" name="access" value="<%= @access_token %>"/>
 <input type="submit" value="comment"/>
-<% @feed["data"].select {|item| item["type"] == "status" && !item["to"].nil?}.each do |item| %>
+<% @feed["data"].select {|item| item["type"] == "status" && !item["to"].nil? && item["comments"]["count"] == 0}.each do |item| %>
   <div>
     <div><b><%= item["from"]["name"] %></b></div>
-    <input type="checkbox" checked="true" name="post" id="post<%= item["id"] %>" value="<%= item["id"] %>"/>
+    <input type="checkbox" checked="true" name="post[]" id="post<%= item["id"] %>" value="<%= item["id"] %>"/>
     <label for="post<% item["id"]%>"><%= item["message"] %></label>
   </div>
 <% end %>
@@ -20,3 +22,4 @@
 <br/>
 <br/>
 <%= @feed %>
+<% end %>
